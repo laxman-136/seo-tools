@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Tools - Complete Content Analysis Suite</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">🔍</span>
+                <h1>SEO Tools</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" id="btn-export">Export Report</button>
+                <button class="btn btn-outline" id="btn-share">Share</button>
+                <button class="btn btn-primary" id="btn-analyze">Analyze</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Editor Panel -->
+            <section class="editor-panel">
+                <div class="panel-header">
+                    <h2>Content Editor</h2>
+                    <div class="editor-tabs">
+                        <button class="tab active" data-tab="text">Text</button>
+                        <button class="tab" data-tab="html">HTML</button>
+                        <button class="tab" data-tab="url">URL</button>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <div class="tab-content active" id="tab-text">
+                        <textarea id="content-editor" placeholder="Paste or type your content here...
+
+Or paste a URL below to fetch and analyze a web page."></textarea>
+                    </div>
+                    <div class="tab-content" id="tab-html">
+                        <textarea id="html-editor" placeholder="Paste HTML code here..."></textarea>
+                    </div>
+                    <div class="tab-content" id="tab-url">
+                        <input type="url" id="url-input" placeholder="Enter URL to fetch and analyze (e.g., https://example.com/page)">
+                        <button class="btn btn-secondary" id="btn-fetch">Fetch & Analyze</button>
+                        <div id="fetch-status"></div>
+                    </div>
+                </div>
+
+                <!-- Focus Keyword Input -->
+                <div class="focus-keyword-section">
+                    <label for="focus-keyword">Focus Keyword:</label>
+                    <input type="text" id="focus-keyword" placeholder="Enter your target keyword phrase">
+                </div>
+
+                <!-- Analysis Controls -->
+                <div class="analysis-controls">
+                    <button class="btn btn-primary btn-large" id="btn-run-analysis">Run Full Analysis</button>
+                    <button class="btn btn-outline" id="btn-clear">Clear</button>
+                </div>
+            </section>
+
+            <!-- Results Panel -->
+            <section class="results-panel">
+                <!-- Score Dashboard -->
+                <div class="score-dashboard card" id="score-dashboard">
+                    <h3>Content Score</h3>
+                    <div class="score-circle">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="score-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="score-fill" cx="50" cy="50" r="45" id="score-circle"></circle>
+                        </svg>
+                        <div class="score-value">
+                            <span id="master-score">0</span>
+                            <span class="score-label">/100</span>
+                        </div>
+                    </div>
+                    <div class="score-breakdown">
+                        <div class="score-item">
+                            <span class="score-label">Readability</span>
+                            <div class="score-bar">
+                                <div class="score-fill-bar" id="score-readability" style="width: 0%"></div>
+                            </div>
+                            <span class="score-value" id="score-readability-val">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">SEO</span>
+                            <div class="score-bar">
+                                <div class="score-fill-bar" id="score-seo" style="width: 0%"></div>
+                            </div>
+                            <span class="score-value" id="score-seo-val">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Structure</span>
+                            <div class="score-bar">
+                                <div class="score-fill-bar" id="score-structure" style="width: 0%"></div>
+                            </div>
+                            <span class="score-value" id="score-structure-val">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Meta Tags</span>
+                            <div class="score-bar">
+                                <div class="score-fill-bar" id="score-meta" style="width: 0%"></div>
+                            </div>
+                            <span class="score-value" id="score-meta-val">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Links & Images</span>
+                            <div class="score-bar">
+                                <div class="score-fill-bar" id="score-links" style="width: 0%"></div>
+                            </div>
+                            <span class="score-value" id="score-links-val">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Readability Scores -->
+                <div class="card" id="readability-card">
+                    <h3>Readability Scores</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Flesch-Kincaid Reading Ease</span>
+                            <span class="metric-value" id="flesch-ease">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Flesch-Kincaid Grade Level</span>
+                            <span class="metric-value" id="flesch-grade">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Gunning Fog Index</span>
+                            <span class="metric-value" id="gunning-fog">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">SMOG Index</span>
+                            <span class="metric-value" id="smog-index">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Coleman-Liau Index</span>
+                            <span class="metric-value" id="coleman-liau">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Automated Readability Index</span>
+                            <span class="metric-value" id="ari-index">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Statistics -->
+                <div class="card" id="stats-card">
+                    <h3>Content Statistics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Word Count</span>
+                            <span class="metric-value" id="word-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Sentence Count</span>
+                            <span class="metric-value" id="sentence-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Paragraph Count</span>
+                            <span class="metric-value" id="paragraph-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Avg Words/Sentence</span>
+                            <span class="metric-value" id="avg-words-sentence">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Avg Words/Paragraph</span>
+                            <span class="metric-value" id="avg-words-para">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Reading Time</span>
+                            <span class="metric-value" id="reading-time">0 min</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Speaking Time</span>
+                            <span class="metric-value" id="speaking-time">0 min</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Lexical Diversity</span>
+                            <span class="metric-value" id="lexical-diversity">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Keyword Analysis -->
+                <div class="card" id="keyword-card">
+                    <h3>Keyword Analysis</h3>
+                    <div class="keyword-input">
+                        <input type="text" id="keyword-check" placeholder="Check keyword density...">
+                        <button class="btn btn-small" id="btn-check-keyword">Check</button>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Keyword Density</span>
+                            <span class="metric-value" id="keyword-density">0%</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Keyword Count</span>
+                            <span class="metric-value" id="keyword-count">0</span>
+                        </div>
+                    </div>
+                    <div class="keyword-positions">
+                        <h4>Keyword Positions</h4>
+                        <ul id="keyword-positions-list">
+                            <li class="empty">Enter a focus keyword above</li>
+                        </ul>
+                    </div>
+                    <div class="keyword-frequency">
+                        <h4>Top Keywords</h4>
+                        <table id="frequency-table">
+                            <thead>
+                                <tr>
+                                    <th>Word</th>
+                                    <th>Count</th>
+                                    <th>Density</th>
+                                </tr>
+                            </thead>
+                            <tbody id="frequency-tbody">
+                                <tr><td colspan="3" class="empty">No data yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- On-Page SEO -->
+                <div class="card" id="onpage-card">
+                    <h3>On-Page SEO Checklist</h3>
+                    <ul class="checklist" id="onpage-checklist">
+                        <li class="check-item" data-check="title-keyword">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in Title</span>
+                        </li>
+                        <li class="check-item" data-check="meta-desc-keyword">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in Meta Description</span>
+                        </li>
+                        <li class="check-item" data-check="first-100">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in First 100 Words</span>
+                        </li>
+                        <li class="check-item" data-check="h1-keyword">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in H1</span>
+                        </li>
+                        <li class="check-item" data-check="h2-keyword">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in H2/H3</span>
+                        </li>
+                        <li class="check-item" data-check="alt-keyword">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in Image Alt</span>
+                        </li>
+                        <li class="check-item" data-check="url-keyword">
+                            <span class="check-icon">○</span>
+                            <span>Keyword in URL</span>
+                        </li>
+                        <li class="check-item" data-check="heading-hierarchy">
+                            <span class="check-icon">○</span>
+                            <span>Valid Heading Hierarchy</span>
+                        </li>
+                        <li class="check-item" data-check="no-stuffing">
+                            <span class="check-icon">○</span>
+                            <span>No Keyword Stuffing</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Headings -->
+                <div class="card" id="headings-card">
+                    <h3>Heading Structure</h3>
+                    <div class="heading-tree" id="heading-tree">
+                        <p class="empty">No headings found</p>
+                    </div>
+                    <div class="heading-stats">
+                        <div class="metric">
+                            <span class="metric-label">Total Headings</span>
+                            <span class="metric-value" id="heading-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">H1 Count</span>
+                            <span class="metric-value" id="h1-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">H2 Count</span>
+                            <span class="metric-value" id="h2-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="card" id="links-card">
+                    <h3>Link Analyzer</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Internal Links</span>
+                            <span class="metric-value" id="internal-links">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">External Links</span>
+                            <span class="metric-value" id="external-links">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Nofollow Links</span>
+                            <span class="metric-value" id="nofollow-links">0</span>
+                        </div>
+                    </div>
+                    <div class="link-list" id="link-list">
+                        <p class="empty">No links found</p>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="card" id="images-card">
+                    <h3>Image SEO</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-label">Total Images</span>
+                            <span class="metric-value" id="image-count">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Images with Alt</span>
+                            <span class="metric-value" id="images-with-alt">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Alt Coverage</span>
+                            <span class="metric-value" id="alt-coverage">0%</span>
+                        </div>
+                    </div>
+                    <div class="image-list" id="image-list">
+                        <p class="empty">No images found</p>
+                    </div>
+                </div>
+
+                <!-- SERP Preview -->
+                <div class="card" id="serp-card">
+                    <h3>SERP Preview</h3>
+                    <div class="serp-toggle">
+                        <button class="btn btn-small" id="btn-mobile-view">Mobile View</button>
+                        <button class="btn btn-small" id="btn-desktop-view">Desktop View</button>
+                    </div>
+                    <div class="serp-preview" id="serp-preview">
+                        <div class="serp-url">example.com</div>
+                        <div class="serp-title" id="serp-title">Your Page Title Here</div>
+                        <div class="serp-description" id="serp-description">Your meta description will appear here. Make sure it's compelling and includes your target keyword...</div>
+                    </div>
+                    <div class="serp-inputs">
+                        <div class="input-group">
+                            <label>Meta Title</label>
+                            <input type="text" id="meta-title-input" placeholder="Enter page title...">
+                            <span class="char-count" id="title-count">0/60</span>
+                        </div>
+                        <div class="input-group">
+                            <label>Meta Description</label>
+                            <textarea id="meta-desc-input" placeholder="Enter meta description..."></textarea>
+                            <span class="char-count" id="desc-count">0/160</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Writing Issues -->
+                <div class="card" id="issues-card">
+                    <h3>Writing Issues</h3>
+                    <div class="issues-summary">
+                        <span class="issue-count" id="hard-sentences-count">0</span> Hard Sentences
+                        <span class="issue-count" id="very-hard-count">0</span> Very Hard
+                        <span class="issue-count" id="passive-count">0</span> Passive Voice
+                        <span class="issue-count" id="adverb-count">0</span> Adverbs
+                        <span class="issue-count" id="weak-word-count">0</span> Weak Words
+                    </div>
+                    <ul class="issues-list" id="issues-list">
+                        <li class="empty">No issues detected</li>
+                    </ul>
+                </div>
+
+                <!-- Duplicate Content -->
+                <div class="card" id="duplicate-card">
+                    <h3>Duplicate Content</h3>
+                    <div class="compare-mode">
+                        <button class="btn btn-small" id="btn-compare-mode">Compare Mode</button>
+                    </div>
+                    <div class="duplicate-results" id="duplicate-results">
+                        <p class="empty">Enter content to check for duplicates</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>SEO Tools - Open Source Content Analysis Suite | No APIs, No Dependencies</p>
+        </footer>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="export-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3>Export Report</h3>
+            <div class="export-options">
+                <button class="btn btn-primary" id="btn-export-text">Export as Text</button>
+                <button class="btn btn-primary" id="btn-export-json">Export as JSON</button>
+                <button class="btn btn-primary" id="btn-export-print">Print View</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal" id="share-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3>Share Analysis</h3>
+            <div class="share-link">
+                <input type="text" id="share-url" readonly>
+                <button class="btn btn-small" id="btn-copy-share">Copy Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div class="modal" id="compare-modal">
+        <div class="modal-content modal-large">
+            <span class="modal-close">&times;</span>
+            <h3>Compare Content</h3>
+            <div class="compare-inputs">
+                <div class="compare-input">
+                    <h4>Text A</h4>
+                    <textarea id="compare-text-a" placeholder="Paste first text..."></textarea>
+                </div>
+                <div class="compare-input">
+                    <h4>Text B</h4>
+                    <textarea id="compare-text-b" placeholder="Paste second text..."></textarea>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="btn-run-compare">Compare</button>
+            <div class="compare-results" id="compare-results"></div>
+        </div>
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>
