@@ -169,7 +169,7 @@ export class ReadabilityEngine {
     // Very hard sentence detector (over 25 words)
     getVeryHardSentences(text) {
         const sentences = this.getSentences(text);
-        return sentences.filter(s => this.getWords(s).length > 25;
+        return sentences.filter(s => this.getWords(s).length > 25);
     }
 
     // Detect passive voice
